@@ -4,7 +4,8 @@ ARG NWAVE_REF=main
 
 USER root
 
-RUN uv pip install --system --break-system-packages nwave-ai && \
+COPY requirements.txt /tmp/requirements.txt
+RUN uv pip install --system --break-system-packages -r /tmp/requirements.txt && \
     git clone --depth=1 --branch "${NWAVE_REF}" \
         https://github.com/nWave-ai/nWave /tmp/nwave && \
     mkdir -p /opt/nwave/.claude && \
@@ -12,7 +13,7 @@ RUN uv pip install --system --break-system-packages nwave-ai && \
     cp -r /tmp/nwave/nWave/skills    /opt/nwave/.claude/ && \
     cp -r /tmp/nwave/nWave/tasks     /opt/nwave/.claude/ && \
     cp -r /tmp/nwave/nWave/templates /opt/nwave/.claude/ && \
-    rm -rf /tmp/nwave
+    rm -rf /tmp/nwave /tmp/requirements.txt
 
 ENV CHUB_TELEMETRY=0
 

@@ -14,9 +14,12 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Set up QEMU (for ARM64 emulation)
         uses: docker/setup-qemu-action@v4
