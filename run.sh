@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-PROJECT_DIR="${1:-$PWD}"
+PROJECT_DIR="$(cd "${1:-.}" && pwd)"
 shift || true
 
 CLAUDE_HOME="${PROJECT_DIR}/claude_home"
@@ -11,7 +11,6 @@ docker run \
   -it \
   --rm \
   --shm-size=256m \
-  --cap-add NET_ADMIN \
   -v "${PROJECT_DIR}:/project:rw" \
   -v "${CLAUDE_HOME}:/home/claude:rw" \
   --name claude-sandbox-nwave-ai \
